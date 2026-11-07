@@ -45,100 +45,113 @@
 </div>
 
 <p>Rudimentary drawing tool created with p5.js, an open source JavaScript library used for "creative coding."​</p>
-<p>Here's the code:</p>
-<pre>function setup() {
-createCanvas(600, 600);
+<p>There are 6 tools total, activated by pressing the associated number key. I recommend using the brushes in order shown.</p>
+<p>1 - Star brush</p>
+<p>2 - Background glow. Places a fading white circle to give an aura to planet you will place next. Click once to place the circle</p>
+<p>3 and 4 - Planets, blue and red, respectively. Keep the mouse still when switching to these to keep your planet centered over the glow.</p>
+<p>5 - Craters. Add a couple craters to give your planet texture. Also kinda works for lens flare.</p>
+<p>6 - Nebula stamp. Add a big ol' nebula to the background.</p>
+<p>Here's the full code that makes this work:</p>
+<pre>var img;
+var initials ='iw'; // your initials
+var choice = '1'; // starting choice, so it is not empty
+var screenbg = (1,10,50); // bluish black background
+var lastscreenshot=1; // last screenshot never taken
+
+function preload() {
+  img = loadImage('https://imwportfolio.github.io/images/nebula.png');
+}
+
+function setup() {
+createCanvas(600, 600);  // canvas size
+background(screenbg);   // use our background screen color
+
 }
 
 function draw() {
-background(5, 0, 25)
+  if (keyIsPressed) {
+    choice = key; // set choice to the key that was pressed
+    clear_print(); // check to see if it is clear screen or save image
+  }
+  if (mouseIsPressed){
+    newkeyChoice(choice);  // if the mouse is pressed call newkeyChoice
+  }
+}
 
-// lasers
-stroke(255, 90, 170, 140);
-strokeWeight(6);
-line(100, 0, 200, 600);
+function newkeyChoice(toolChoice) { //toolchoice is the key that was pressed
+  // the key mapping if statements that you can change to do anything you want.
+  // just make sure each key option has the a stroke or fill and then what type of 
+  // graphic function
 
-stroke(170, 80, 255);
-strokeWeight(6);
-line(200, 0, 160, 600);
+ if (toolChoice == '1') {   // stars
+    if (frameCount % 6 == 0) {    // draws on every 6th frame. increase for denser stars
+      noStroke();
+      fill(255);
+      circle(mouseX, mouseY, 2);
+      circle(mouseX+15, mouseY-10, 2);
+      circle(mouseX-12, mouseY+8, 2);
+      circle(mouseX-8, mouseY-16, 2);
+      circle(mouseX+10, mouseY+14, 2);
+    }
 
-stroke(170, 80, 255);
-strokeWeight(6);
-line(150, 0, 0, 400);
+} else if (toolChoice == '2') {   // background glow. place before planet. keep mouse still when switching tools to center the planet on top of the glow
+    noStroke();
+    for (let r = 60; r >= 50; r--) { // loop to create fading concentric circles
+      let t = (r - 50) / 10; //sets the distance between concentric circles
+      fill(lerpColor(color(255), color(screenbg), t));
+      circle(mouseX, mouseY, r * 2);
+    }
 
-stroke(8, 228, 252);
-strokeWeight(6);
-line(555, 0, 480, 600);
+} else if (toolChoice == '3') { // dark teal planet
+    noStroke();
+    fill(110, 145, 125);
+    circle(mouseX, mouseY, 100);
 
-stroke(255, 0, 200);
-strokeWeight(6);
-line(600, 20, 0, 480);
+} else if (toolChoice == '4') { // dark red planet
+    noStroke();
+    fill(155, 75, 65);
+    circle(mouseX, mouseY, 100);
 
-stroke(0, 255, 255);
-strokeWeight(6);
-line(480, 0, 600, 580);
+} else if (key == '5') { // add craters to your planet. also kinda works as lens flares
+    noStroke();
+    fill(100, 90, 90, 50); // 4th number is transparency
+    circle(mouseX, mouseY, 15);
 
-noStroke();
+} else if (toolChoice == 'g' || toolChoice == 'G') { // add a nebula!
+    tint(255, 80); // color change (none) and transparency
+    image(img, mouseX-225, mouseY-225, 450, 450);
+  }
+ }
 
-// hair
-fill(95, 60, 35);
-rect(160, 140, 280, 380, 120, 120, 40, 40);
+function testbox(r, g, b) {
+// this is a test function that will show you how you can put your own functions into the sketch
+  x = mouseX;
+  y = mouseY;
+  fill(r, g, b);
+  rect(x-50, y-50, 20, 20);
+}
 
-// neck
-fill(235, 190, 160);
-rect(250, 400, 100, 120);
+function clear_print() {
+// this will do one of two things, x clears the screen by resetting the background
+// p calls the routine saveme, which saves a copy of the screen
+  if (key == 'x' || key == 'X') {
+    background(screenbg); // set the screen back to the background color
+  } else if (key == 'p' || key == 'P') {
+     saveme();  // call saveme which saves an image of the screen
+  }
+}
 
-// body
-fill(85);
-ellipse(300, 640, 460, 260);
+function saveme(){
+    //this will save the name as the intials, date, time and a millis counting number.
+    // it will always be larger in value then the last one.
+  filename=initials+day() + hour() + minute() +second();
+  if (second()!=lastscreenshot) { // don't take a screenshot if you just took one
+    saveCanvas(filename, 'jpg');
+    key="";
+  }
+  lastscreenshot=second(); // set this to the current second so no more than one per second
 
-// face
-fill(235, 190, 160);
-ellipse(300, 290, 220, 270);
-
-// sideburns
-fill(80, 50, 30);
-rect(190, 250, 25, 90);
-rect(385, 250, 25, 90);
-
-// beard
-arc(300, 320, 230, 280, 0, PI);
-
-// stache
-fill(70, 45, 25);
-ellipse(275, 345, 60, 22);
-ellipse(325, 345, 60, 22);
-
-// mouth
-fill(150, 60, 60);
-ellipse(300, 375, 50, 18);
-
-// nose
-fill(220, 170, 140);
-triangle(300, 280, 285, 325, 315, 325);
-
-// eyes
-fill(255);
-ellipse(255, 265, 45, 28);
-ellipse(345, 265, 45, 28);
-
-// pupils
-fill(0);
-circle(255, 265, 16);
-circle(345, 265, 16);
-
-// eyebrows
-fill(80, 50, 30);
-rect(230, 238, 50, 9, 4);
-rect(320, 238, 50, 9, 4);
-
-// beanie top
-fill(22, 150, 186);
-arc(300, 200, 260, 190, PI, TWO_PI);
-
-// beanie bottom
-fill(12, 132, 166);
-rect(160, 185, 280, 40, 10);
+}
 }</pre>
 
 </div>
