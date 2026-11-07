@@ -63,7 +63,7 @@ function newkeyChoice(toolChoice) { //toolchoice is the key that was pressed
     fill(100, 90, 90, 50); // 4th number is transparency
     circle(mouseX, mouseY, 15);
 
-} else if (toolChoice == 'g' || toolChoice == 'G') { // add a nebula!
+} else if (toolChoice == '6') { // add a nebula!
     tint(255, 80); // color change (none) and transparency
     image(img, mouseX-225, mouseY-225, 450, 450);
   }
