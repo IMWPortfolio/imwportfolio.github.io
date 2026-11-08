@@ -30,15 +30,9 @@ function newkeyChoice(toolChoice) { //toolchoice is the key that was pressed
   // graphic function
 
  if (toolChoice == '1') {   // stars
-    if (frameCount % 6 == 0) {    // draws on every 6th frame. increase for denser stars
-      noStroke();
-      fill(255);
-      circle(mouseX, mouseY, 2);
-      circle(mouseX+15, mouseY-10, 2);
-      circle(mouseX-12, mouseY+8, 2);
-      circle(mouseX-8, mouseY-16, 2);
-      circle(mouseX+10, mouseY+14, 2);
-    }
+    fill(random(180, 255));
+   noStroke();
+   ellipse(mouseX + random(-10, 50), mouseY + random(-10, 50), random(1, 2), random(1, 2));
 
 } else if (toolChoice == '2') {   // background glow. place before planet. keep mouse still when switching tools to center the planet on top of the glow
     noStroke();
@@ -51,17 +45,17 @@ function newkeyChoice(toolChoice) { //toolchoice is the key that was pressed
 } else if (toolChoice == '3') { // dark teal planet
     noStroke();
     fill(110, 145, 125);
-    circle(mouseX, mouseY, 100);
+    circle(mouseX, mouseY, 105);
 
 } else if (toolChoice == '4') { // dark red planet
     noStroke();
     fill(155, 75, 65);
-    circle(mouseX, mouseY, 100);
+    circle(mouseX, mouseY, 105);
 
-} else if (key == '5') { // add craters to your planet. also kinda works as lens flares
+} else if (key == '5') { // lens flare
     noStroke();
     fill(100, 90, 90, 50); // 4th number is transparency
-    circle(mouseX, mouseY, 15);
+    circle(mouseX, mouseY, random(15, 50));1
 
 } else if (toolChoice == '6') { // add a nebula!
     tint(255, 80); // color change (none) and transparency
@@ -82,7 +76,8 @@ function clear_print() {
 // p calls the routine saveme, which saves a copy of the screen
   if (key == 'x' || key == 'X') {
     background(screenbg); // set the screen back to the background color
-  } else if (key == 'p' || key == 'P') {
+
+} else if (key == 'p' || key == 'P') {
      saveme();  // call saveme which saves an image of the screen
   }
 }
