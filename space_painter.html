@@ -44,13 +44,15 @@
 <iframe src="diyps2026/index.html" title="space painter"></iframe>
 </div>
 
-<p>Rudimentary drawing tool created with p5.js, an open source JavaScript library used for "creative coding."​</p>
-<p>There are 6 tools total, activated by pressing the associated number key. I recommend using the brushes in order shown.</p>
+<p>This is a rudimentary drawing tool created with p5.js, an open source JavaScript library used for "creative coding."​</p>
+<p>There are 6 tools total, activated by pressing the associated number key. I recommend using the brushes in the order shown.</p>
 <p>1 - Star brush</p>
 <p>2 - Background glow. Places a fading white circle to give an aura to planet you will place next. Click once to place the circle</p>
 <p>3 and 4 - Planets, blue and red, respectively. Keep the mouse still when switching to these to keep your planet centered over the glow.</p>
 <p>5 - Craters. Add a couple craters to give your planet texture. Also kinda works for lens flare.</p>
 <p>6 - Nebula stamp. Add a big ol' nebula to the background.</p>
+<p>x - clear </p>
+<p>p - save a screenshot of your piece.</p>
 <p>Here's the full code that makes this work:</p>
 <pre>var img;
 var initials ='iw'; // your initials
@@ -117,7 +119,7 @@ function newkeyChoice(toolChoice) { //toolchoice is the key that was pressed
     fill(100, 90, 90, 50); // 4th number is transparency
     circle(mouseX, mouseY, 15);
 
-} else if (toolChoice == 'g' || toolChoice == 'G') { // add a nebula!
+} else if (toolChoice == '6') { // add a nebula!
     tint(255, 80); // color change (none) and transparency
     image(img, mouseX-225, mouseY-225, 450, 450);
   }
@@ -136,6 +138,7 @@ function clear_print() {
 // p calls the routine saveme, which saves a copy of the screen
   if (key == 'x' || key == 'X') {
     background(screenbg); // set the screen back to the background color
+
   } else if (key == 'p' || key == 'P') {
      saveme();  // call saveme which saves an image of the screen
   }
